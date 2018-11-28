@@ -1,0 +1,24 @@
+{
+  "author": "",
+    "browserify": {
+    "transform": [
+      "vueify",
+      "babelify"
+    ]
+  },
+  "dependencies": {
+    "json2csv": "^4.3.1",
+    "spinal-env-viewer-context-menu-service": "git+https://github.com/spinalcom/spinal-env-viewer-context-menu-service.git",
+    "spinal-env-viewer-panel-manager-service": "git+https://github.com/spinalcom/spinal-env-viewer-panel-manager-service.git",
+    "spinal-env-viewer-panel-manager-service_spinalforgeextention": "git+https://github.com/spinalcom/spinal-env-viewer-panel-manager-service_spinalforgeextention.git",
+    "spinalgraph": "git+https://github.com/spinalcom/spinal-model-graph.git#v01"
+  },
+  "deprecated": false,
+  "description": "",
+  "main": "index.js",
+  "name": "spinal-env-viewer-plugin-graph_export",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.1.0"
+}
