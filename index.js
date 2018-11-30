@@ -67,24 +67,28 @@ function equipmentJsonDetails(node) {
     let keys = Object.keys(json);
 
     for (let i = 0; i < keys.length; i++) {
-      tab.push(JsonTransform(json[keys[i]].childrens, keys[i], json[keys[i]]._info.relation));
+      tab.push(JsonTransform(json[keys[i]].childrens, keys[i], json[keys[i]]._info.relation, result));
     }
 
-    Promise.all(tab).then(render => DoSomething(render[0]));
+    Promise.all(tab).then(render => DoSomething(result));
   }
 
   function DoSomething(arr) {
     let ite = 0;
-    let fields = `"${arr[0][0][1].replace(/,/g, '","')}"`;
-    let data = [ regexForFieldsCsv(fields) ];
-    let tmp;
+    let fieldsLength = 0;
+    let fields;
+    let data = [];
 
-    while(ite < arr.length) {
-      data.push(`"${arr[ite][0][0].replace(/,/g, '","')}"`);
-      ite++;
+    for (var key in arr) {
+      if (fieldsLength < arr[key].length) {
+        fields = arr[key];
+        fieldsLength = arr[key].length;
+      }
+      data.push(`"${key.replace(/,/g, '","')}"`)
     }
-    console.log(data);
-    download('export.csv', data);
+    data.unshift(`"${fields.replace(/,/g, '","')}"`);
+
+     download('export.csv', data);
   }
 
   const regexForFieldsCsv = (str) => str.replace(/HasContext/g, 'context').replace(/HasFloor/g, 'Floor').replace(/HasRoom/g, 'Room').replace(/HasZone/g, 'Zone').replace(/HasEquipment/g, 'Equipment');
@@ -106,7 +110,7 @@ function equipmentJsonDetails(node) {
     return result;
   }
 
-  function JsonTransform(json, result, fields) {
+  function JsonTransform(json, result, fields, obj) {
     return new Promise((resolve) => {
       let keys;
       let i = 0;
@@ -116,15 +120,16 @@ function equipmentJsonDetails(node) {
       while (i < keys.length){
         if (!json[keys[i]].childrens) {
           let details = getEquipmentDetails(json[keys[i]]._info);
-          result = `${result},${keys[i]},${details.result}`;
-          fields = `${fields},${json[keys[i]]._info.relation},${details.fields}`;
-          return resolve([result, fields]);
+          obj[`${result},${keys[i]}`] = `${fields},${json[keys[i]]._info.relation}`;
+          tab.push(Promise.resolve([`${result},${keys[i]}`, `${fields},${json[keys[i]]._info.relation}`]));
         }
-        else
-          tab.push(JsonTransform(json[keys[i]].childrens, `${result},${keys[i]}`, `${fields},${json[keys[i]]._info.relation}`));
+        else {
+          tab.push(JsonTransform(json[keys[i]].childrens, `${result},${keys[i]}`, `${fields},${json[keys[i]]._info.relation}`, obj));
+        }
         i++;
       }
-      Promise.all(tab).then(result => resolve(result));
+
+      Promise.all(tab).then(res => resolve(res));
     })
   }
 
@@ -161,28 +166,4 @@ action(option) {
   }
 }
 
-// create a node
-const extentionCreated = SpinalForgeExtention.createExtention({
-  name: "mypanel",
-  vueMountComponent: Vue.extend(aVueCompoment),
-  // toolbar is optional
-  toolbar: {
-    icon: "done",
-    label: "testLabel",
-    subToolbarName: "spinalcom"
-  },
-  panel: {
-    title: "Spinalcom Panel",
-    classname: "spinal-pannel",
-    closeBehaviour: "hide" // if something else panel is deleted
-  },
-  style: {
-    left: "405px"
-  },
-  onload: () => {},
-  onUnLoad: () => {}
-});
-
-
 spinalContextMenuService.registerApp("GraphManagerSideBar", new SpinalContextExport());
-SpinalForgeExtention.registerExtention("mypanel", extentionCreated);
