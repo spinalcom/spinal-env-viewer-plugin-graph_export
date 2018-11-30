@@ -156,8 +156,10 @@ function equipmentJsonDetails(node) {
     }
 
     isShown(option) {
-  //  if (option.testsFail === true) return Promise.resolve(-1);
-  return Promise.resolve(true);
+      if (option.selectedNode instanceof spinalgraph.SpinalContext)
+        return (true);
+      else
+        return (-1);
 }
 
 action(option) {
