@@ -22,7 +22,7 @@ function middleware(node) {
   let obj = {};
   let name = node.info.name.get();
   obj[name] = { _info : { relation: Object.keys(node.parents).pop() } };
-  RecursiveGraphToJson(node, obj, name, node).then(ok => JsonToCsv(obj));
+  RecursiveGraphToJson(node, obj, name, node).then(ok => JsonToCsv(obj, name));
 }
 
 function equipmentJsonDetails(node) {
@@ -60,7 +60,7 @@ function equipmentJsonDetails(node) {
     })
   }
 
-  function JsonToCsv(json) {
+  function JsonToCsv(json, name) {
     let header = [];
     let result = {};
     let tab = [];
@@ -70,10 +70,10 @@ function equipmentJsonDetails(node) {
       tab.push(JsonTransform(json[keys[i]].childrens, keys[i], json[keys[i]]._info.relation, result));
     }
 
-    Promise.all(tab).then(render => DoSomething(result));
+    Promise.all(tab).then(render => DoSomething(result, name));
   }
 
-  function DoSomething(arr) {
+  function DoSomething(arr, fileName) {
     let ite = 0;
     let fieldsLength = 0;
     let fields;
@@ -88,7 +88,7 @@ function equipmentJsonDetails(node) {
     }
     data.unshift(`"${fields.replace(/,/g, '","')}"`);
 
-     download('export.csv', data);
+     download(`${fileName}.csv`, data);
   }
 
   const regexForFieldsCsv = (str) => str.replace(/HasContext/g, 'context').replace(/HasFloor/g, 'Floor').replace(/HasRoom/g, 'Room').replace(/HasZone/g, 'Zone').replace(/HasEquipment/g, 'Equipment');
