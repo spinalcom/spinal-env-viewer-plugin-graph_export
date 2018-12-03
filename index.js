@@ -86,12 +86,14 @@ function equipmentJsonDetails(node) {
       }
       data.push(`"${key.replace(/,/g, '","')}"`)
     }
-    data.unshift(`"${fields.replace(/,/g, '","')}"`);
+    data.unshift(`"${regexForFieldsCsv(fields).replace(/,/g, '","')}"`);
 
      download(`${fileName}.csv`, data);
   }
 
-  const regexForFieldsCsv = (str) => str.replace(/HasContext/g, 'context').replace(/HasFloor/g, 'Floor').replace(/HasRoom/g, 'Room').replace(/HasZone/g, 'Zone').replace(/HasEquipment/g, 'Equipment');
+  const regexForFieldsCsv = (str) => str.replace(/hasContext/g, 'Context').replace(/hasGeographicBuilding/g, 'Building')
+                                        .replace(/hasGeographicFloor/g, 'Floor').replace(/hasGeographicRoom/g, 'Room')
+                                        .replace(/hasGeographicZone/g, 'Zone').replace(/hasGeographicEquipment/g, 'Equipment');
 
   function getEquipmentDetails(json)
   {
