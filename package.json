@@ -1,6 +1,6 @@
 {
   "author": "",
-    "browserify": {
+  "browserify": {
     "transform": [
       "vueify",
       "babelify"
@@ -10,7 +10,7 @@
     "spinal-env-viewer-context-menu-service": "git+https://github.com/spinalcom/spinal-env-viewer-context-menu-service.git",
     "spinal-env-viewer-panel-manager-service": "git+https://github.com/spinalcom/spinal-env-viewer-panel-manager-service.git",
     "spinal-env-viewer-panel-manager-service_spinalforgeextention": "git+https://github.com/spinalcom/spinal-env-viewer-panel-manager-service_spinalforgeextention.git",
-    "spinalgraph": "git+https://github.com/spinalcom/spinal-model-graph.git#v01"
+    "spinal-env-viewer-graph-service": "git+https://github.com/spinalcom/Spinal-Graph-Service.git"
   },
   "deprecated": false,
   "description": "",
