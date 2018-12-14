@@ -162,14 +162,16 @@ class SpinalContextExport extends SpinalContextApp {
   isShown( option ) {
 
     if (SpinalGraphService.getRealNode( option.selectedNode.id.get() ) instanceof SpinalContext) {
-      return (true);
+      return (Promise.resolve(true));
     } else {
-      return (-1);
+      return (Promise.resolve(-1));
     }
   }
 
   action( option ) {
     //spinalPanelManagerService.openPanel("mypanel", option);
+    const id = option.context.id.get()
+    let contextNode = SpinalGraphService.getRealNode(id)
     middleware( option.context );
   }
 }
