@@ -172,7 +172,7 @@ class SpinalContextExport extends SpinalContextApp {
     //spinalPanelManagerService.openPanel("mypanel", option);
     const id = option.context.id.get()
     let contextNode = SpinalGraphService.getRealNode(id)
-    middleware( option.context );
+    middleware( contextNode );
   }
 }
 
