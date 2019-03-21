@@ -176,4 +176,4 @@ class SpinalContextExport extends SpinalContextApp {
   }
 }
 
-spinalContextMenuService.registerApp( "GraphManagerSideBar", new SpinalContextExport() );
+spinalContextMenuService.registerApp( "GraphManagerSideBar", new SpinalContextExport(), [15]);
