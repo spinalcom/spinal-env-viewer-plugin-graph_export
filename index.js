@@ -154,7 +154,7 @@ function download( filename, arr ) {
 class SpinalContextExport extends SpinalContextApp {
   constructor() {
     super( "export-csv", "Export csv format", {
-      icon: "explicit",
+      icon: "cloud_download",
       icon_type: "in"
     } );
   }
